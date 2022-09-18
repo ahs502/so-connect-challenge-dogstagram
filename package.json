@@ -1,7 +1,16 @@
 {
   "name": "so-connect-challenge-dogstagram",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Dogstagram frontend challenge for SO Connect",
   "private": true,
+  "scripts": {
+    "start": "cross-env BROWSER=none react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint-staged": "cross-env LINT_FIX_ERRORS=false lint-staged --verbose",
+    "prepare": "husky install"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -10,34 +19,34 @@
     "@types/node": "^16.11.59",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
+    "cross-env": "^7.0.3",
+    "eslint-config-prettier": "^8.5.0",
+    "prettier": "^2.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "typescript": "^4.8.3",
-    "web-vitals": "^2.1.4"
+    "typescript": "^4.8.3"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+  "devDependencies": {
+    "lint-staged": "^13.0.3",
+    "husky": "^8.0.0"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahs502/so-connect-challenge-dogstagram.git"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "keywords": [
+    "SO Connect",
+    "frontend",
+    "challenge"
+  ],
+  "author": {
+    "name": "Hessamoddin A Shokravi",
+    "email": "ahs502@gmail.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ahs502/so-connect-challenge-dogstagram/issues"
+  },
+  "homepage": "https://github.com/ahs502/so-connect-challenge-dogstagram#readme"
 }
