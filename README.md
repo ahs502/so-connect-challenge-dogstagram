@@ -92,6 +92,13 @@ $ npm test
 
 <br/>
 
+## Remaining work
+
+- [ ] More tests, improve test coverage
+- [ ] Accessibility
+
+<br/>
+
 ## Contact me
 
 * Hessamoddin A Shokravi

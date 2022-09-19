@@ -33,6 +33,10 @@ const useStyles = makeStyles({ name: 'MainPage' })((theme, _, classes) => ({
     width: '100%',
     minHeight: '100vh',
   },
+  body: {
+    width: '100%',
+    minHeight: '100%',
+  },
 }))
 
 export function MainPage() {
@@ -58,7 +62,12 @@ export function MainPage() {
       <AppBar position="sticky">
         <Toolbar sx={theme => ({ display: 'flex', gap: theme.spacing(2) })}>
           <>
-            <IconButton ref={mainMenuAnchorRef} sx={{ display: { sm: 'none' } }} onClick={() => setMainMenuOpen(true)}>
+            <IconButton
+              ref={mainMenuAnchorRef}
+              color="inherit"
+              sx={{ display: { sm: 'none' } }}
+              onClick={() => setMainMenuOpen(true)}
+            >
               <MenuIcon />
             </IconButton>
 
@@ -105,6 +114,7 @@ export function MainPage() {
           >
             <Button
               variant={navigatedToDogsPage ? 'outlined' : 'text'}
+              color="inherit"
               onClick={() => {
                 navigate('/dogs')
               }}
@@ -114,6 +124,7 @@ export function MainPage() {
 
             <Button
               variant={navigatedToFavoritesPage ? 'outlined' : 'text'}
+              color="inherit"
               onClick={() => {
                 navigate('/favorites')
               }}
@@ -125,8 +136,8 @@ export function MainPage() {
           <Box sx={{ flexGrow: 1 }} />
 
           <>
-            <IconButton ref={userMenuAnchorRef} onClick={() => setUserMenuOpen(true)}>
-              <Avatar sx={theme => ({ width: theme.spacing(4), height: theme.spacing(4) })}>
+            <IconButton ref={userMenuAnchorRef} color="inherit" onClick={() => setUserMenuOpen(true)}>
+              <Avatar sx={theme => ({ width: theme.spacing(4), height: theme.spacing(4), color: 'inherit' })}>
                 <PersonIcon />
               </Avatar>
             </IconButton>
@@ -143,7 +154,7 @@ export function MainPage() {
               <List>
                 <MenuItem>
                   <ListItemAvatar>
-                    <Avatar sx={theme => ({ width: theme.spacing(4), height: theme.spacing(4) })}>
+                    <Avatar sx={theme => ({ width: theme.spacing(4), height: theme.spacing(4), color: 'inherit' })}>
                       <PersonIcon />
                     </Avatar>
                   </ListItemAvatar>
@@ -184,7 +195,7 @@ export function MainPage() {
         </Toolbar>
       </AppBar>
 
-      <div>
+      <div className={classes.body}>
         <Outlet />
       </div>
     </div>
