@@ -1,5 +1,6 @@
 import { Button, Divider, Paper, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useGetSet } from 'react-use'
 import { makeStyles } from 'tss-react/mui'
 import { config } from '../../config'
@@ -37,6 +38,8 @@ export function SignInPage() {
 
   const { setAuthenticatedUserId } = useAuthentication()
 
+  const navigate = useNavigate()
+
   const { classes } = useStyles()
 
   return (
@@ -54,6 +57,7 @@ export function SignInPage() {
             )
             if (getUserIdError() || getPasswordError()) return
             setAuthenticatedUserId(userId)
+            navigate('/')
           }}
         >
           <Typography variant="h5" gutterBottom alignSelf="center">
