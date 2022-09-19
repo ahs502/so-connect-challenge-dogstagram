@@ -1,5 +1,6 @@
 import { Button, Divider, Paper, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
+import { useGetSet } from 'react-use'
 import { makeStyles } from 'tss-react/mui'
 import { config } from '../../config'
 import { useAuthentication } from '../authentication'
@@ -30,9 +31,9 @@ const useStyles = makeStyles({ name: 'SignInPage' })((theme, _, classes) => ({
 
 export function SignInPage() {
   const [userId, setUserId] = useState('')
-  const [userIdError, setUserIdError] = useState('')
+  const [getUserIdError, setUserIdError] = useGetSet('')
   const [password, setPassword] = useState('')
-  const [passwordError, setPasswordError] = useState('')
+  const [getPasswordError, setPasswordError] = useGetSet('')
 
   const { setAuthenticatedUserId } = useAuthentication()
 
@@ -45,19 +46,13 @@ export function SignInPage() {
           className={classes.form}
           onSubmit={event => {
             event.preventDefault()
-            if (!userId) {
-              setUserIdError('User ID is required')
-              return
-            }
-            if (!password) {
-              setPasswordError('Password is required')
-              return
-            }
-            // The rest is just mocking a server-side process in the real life:
-            if (password !== config.password) {
-              setPasswordError('Password is incorrect')
-              return
-            }
+            setUserIdError(
+              !userId ? 'User ID is required' : userId.length < 5 ? 'User ID should be at least 5 characters' : ''
+            )
+            setPasswordError(
+              !password ? 'Password is required' : password !== config.password ? 'Password is incorrect' : ''
+            )
+            if (getUserIdError() || getPasswordError()) return
             setAuthenticatedUserId(userId)
           }}
         >
@@ -77,20 +72,21 @@ export function SignInPage() {
               setUserId(event.target.value)
               setUserIdError('')
             }}
-            error={Boolean(userIdError)}
-            helperText={userIdError}
+            error={Boolean(getUserIdError())}
+            helperText={getUserIdError()}
           />
 
           <TextField
             fullWidth
             label="Password"
+            type="password"
             value={password}
             onChange={event => {
               setPassword(event.target.value)
               setPasswordError('')
             }}
-            error={Boolean(passwordError)}
-            helperText={passwordError}
+            error={Boolean(getPasswordError())}
+            helperText={getPasswordError()}
           />
 
           <Button variant="contained" color="primary" fullWidth type="submit">
