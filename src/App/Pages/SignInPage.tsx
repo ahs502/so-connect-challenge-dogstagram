@@ -1,10 +1,10 @@
 import { Button, Divider, Paper, TextField, Typography } from '@mui/material'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useGetSet } from 'react-use'
 import { makeStyles } from 'tss-react/mui'
 import { config } from '../../config'
-import { useAuthentication } from '../authentication'
+import { authenticatedUserIdLocalStorageEntry } from '../authenticatedUserIdLocalStorageEntry'
+import { useAuthenticationCheck } from './useAuthenticationCheck'
 
 const useStyles = makeStyles({ name: 'SignInPage' })((theme, _, classes) => ({
   root: {
@@ -36,9 +36,7 @@ export function SignInPage() {
   const [password, setPassword] = useState('')
   const [getPasswordError, setPasswordError] = useGetSet('')
 
-  const { setAuthenticatedUserId } = useAuthentication()
-
-  const navigate = useNavigate()
+  useAuthenticationCheck({ shouldBeAuthenticated: false })
 
   const { classes } = useStyles()
 
@@ -56,8 +54,7 @@ export function SignInPage() {
               !password ? 'Password is required' : password !== config.password ? 'Password is incorrect' : ''
             )
             if (getUserIdError() || getPasswordError()) return
-            setAuthenticatedUserId(userId)
-            navigate('/')
+            authenticatedUserIdLocalStorageEntry.write(userId)
           }}
         >
           <Typography variant="h5" gutterBottom alignSelf="center">
@@ -71,6 +68,7 @@ export function SignInPage() {
           <TextField
             fullWidth
             label="User ID"
+            autoComplete="off"
             value={userId}
             onChange={event => {
               setUserId(event.target.value)
@@ -84,6 +82,7 @@ export function SignInPage() {
             fullWidth
             label="Password"
             type="password"
+            autoComplete="new-password"
             value={password}
             onChange={event => {
               setPassword(event.target.value)

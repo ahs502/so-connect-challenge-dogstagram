@@ -1,4 +1,4 @@
 import { PaletteMode } from '@mui/material'
-import { createLocalStorageEntry } from '../../createLocalStorageEntry'
+import { LocalStorageEntry } from '../../LocalStorageEntry'
 
-export const themePalleteModeLocalStorageEntry = createLocalStorageEntry<PaletteMode>('theme-palette-mode')
+export const themePalleteModeLocalStorageEntry = LocalStorageEntry.create<PaletteMode>('theme-palette-mode')

@@ -1,4 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom'
+import { DogsPage } from './DogsPage'
 import { ErrorPage } from './ErrorPage'
 import { RootPage } from './RootPage'
 import { SignInPage } from './SignInPage'
@@ -15,7 +16,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/dogs',
-        element: <div>Here are the dogs!</div>,
+        element: <DogsPage />,
       },
     ],
   },
