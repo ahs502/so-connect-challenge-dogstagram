@@ -6,13 +6,15 @@
 
 <br/>
 
-## Initial notes
+## Important notes
 
 A live version of the application is served under [this address](https://???.zettel.ai).
 
-You may use any arbitrary **User ID** to sign in.
+You may use any arbitrary ***User ID*** to sign in.
 
-The **Password** is hard-coded to **`"zoot"`**.
+The ***Password*** is hard-coded to **`"zoot"`**.
+
+The UI is pretty responsive, so it works fine on different screen sizes.
 
 <br/>
 

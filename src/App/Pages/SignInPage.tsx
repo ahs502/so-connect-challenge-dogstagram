@@ -4,11 +4,12 @@ import { useGetSet } from 'react-use'
 import { makeStyles } from 'tss-react/mui'
 import { config } from '../../config'
 import { authenticatedUserIdLocalStorageEntry } from '../authenticatedUserIdLocalStorageEntry'
+import { Logo } from '../Logo'
 import { useAuthenticationCheck } from './useAuthenticationCheck'
 
 const useStyles = makeStyles({ name: 'SignInPage' })((theme, _, classes) => ({
   root: {
-    width: '100vw',
+    width: '100%',
     height: '100vh',
     padding: theme.spacing(2),
     display: 'flex',
@@ -19,9 +20,13 @@ const useStyles = makeStyles({ name: 'SignInPage' })((theme, _, classes) => ({
   paper: {
     width: theme.spacing(60),
   },
+  logo: {
+    marginTop: theme.spacing(3),
+    alignSelf: 'center',
+  },
   form: {
     width: '100%',
-    padding: theme.spacing(2),
+    padding: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
@@ -57,13 +62,15 @@ export function SignInPage() {
             authenticatedUserIdLocalStorageEntry.write(userId)
           }}
         >
+          <Logo size={15} className={classes.logo} />
+
           <Typography variant="h5" gutterBottom alignSelf="center">
-            🐶 Welcome to Dogstagram!
+            Welcome to Dogstagram!
           </Typography>
 
           <Divider />
 
-          <Typography variant="subtitle1">Please, sign in:</Typography>
+          <Typography variant="subtitle1">Sign in:</Typography>
 
           <TextField
             fullWidth
