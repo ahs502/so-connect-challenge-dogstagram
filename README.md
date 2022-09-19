@@ -1,46 +1,97 @@
-# Getting Started with Create React App
+# 🐶 Dogstagram!
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+###  Front-end Challenge &mdash; SO Connect &mdash; Hessamoddin A Shokravi
 
-## Available Scripts
+----------------
 
-In the project directory, you can run:
+<br/>
 
-### `npm start`
+## Initial notes
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+A live version of the application is served under [this address](https://???.zettel.ai).
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+You may use any arbitrary **User ID** to sign in.
 
-### `npm test`
+The **Password** is hard-coded to **`"zoot"`**.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<br/>
 
-### `npm run build`
+## Technical stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- TypeScript
+- React
+- MUI
+- Webpack (Create-React-App)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+> It's strongly recommended to use [VS Code](https://code.visualstudio.com/) to develope this repository.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br/>
 
-### `npm run eject`
+## Setup locally
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+1. Clone the repository:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```sh
+   $ git clone https://github.com/ahs502/so-connect-challenge-dogstagram
+   $ cd so-connect-challenge-dogstagram
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+1. Install the dependencies:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+   ```sh
+   $ npm install
+   ```
 
-## Learn More
+1. Start the development server:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   ```sh
+   $ npm start
+   ```
+   > You need to open the app manually from [`http://localhost:3000`](http://localhost:3000).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<br/>
+
+## Available commands
+
+- Run tests:
+
+   ```sh
+   $ npm test            # Runs all the tests at once
+   $ npm test.watch      # Watch for changes to run tests
+   $ npm test.coverage   # Report test coverage
+   ```
+   > Tests are still under development!
+
+- Lint all the staged changes before commit:
+
+   ```sh
+   $ npm run lint-staged
+   ```
+
+- Create a production build:
+
+   ```sh
+   $ npm run build
+   ```
+   > Build artifacts are placed inside the `dist` folder.
+
+<br/>
+
+## Development guide
+
+Thanks to the `husky` package, every changes are checked before being committed.
+This includes linting and testing.
+Therefore, in order to have a convenient committing experience, you may do both checks manually right before committing to make sure everthing is alright:
+
+```sh
+$ npm run lint-stage   # Do not forget to stage changes first!
+$ npm test
+```
+
+<br/>
+
+## Contact me
+
+* Hessamoddin A Shokravi
+* ahs502@gmail.com
+
