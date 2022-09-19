@@ -1,9 +1,16 @@
+import createCache from '@emotion/cache'
+import { CacheProvider } from '@emotion/react'
 import { CssBaseline } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { PropsWithChildren, useMemo } from 'react'
 import { getThemeOptions } from './getThemeOptions'
 import { themePalleteModeLocalStorageEntry } from './themePalleteModeLocalStorageEntry'
 import { useSystemThemePaletteMode } from './useSystemThemePaletteMode'
+
+const muiCache = createCache({
+  key: 'mui',
+  prepend: true,
+})
 
 export function StylingProvider({ children }: PropsWithChildren<{}>) {
   const { systemThemePaletteMode } = useSystemThemePaletteMode()
@@ -18,9 +25,11 @@ export function StylingProvider({ children }: PropsWithChildren<{}>) {
   }, [systemThemePaletteMode, themePaletteMode])
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <CacheProvider value={muiCache}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </CacheProvider>
   )
 }

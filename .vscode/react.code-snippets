@@ -1,0 +1,17 @@
+{
+  "TSS React makeStyles": {
+    "scope": "typescript,typescriptreact",
+    "prefix": "comp-styles",
+    "body": [
+      "import { makeStyles } from 'tss-react/mui'",
+      "",
+      "const useStyles = makeStyles({ name: '$TM_FILENAME_BASE' })((theme, _, classes) => ({",
+      "  root: {",
+      "    $0",
+      "  },",
+      "}))",
+      ""
+    ],
+    "description": "Insert TSS React makeStyles() call to create useStyles()"
+  }
+}
