@@ -7,6 +7,8 @@ import { getThemeOptions } from './getThemeOptions'
 import { themePalleteModeLocalStorageEntry } from './themePalleteModeLocalStorageEntry'
 import { useSystemThemePaletteMode } from './useSystemThemePaletteMode'
 
+import './vendor-styles'
+
 const muiCache = createCache({
   key: 'mui',
   prepend: true,
