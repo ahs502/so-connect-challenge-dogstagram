@@ -1,5 +1,4 @@
 import { DetailedHTMLProps, ImgHTMLAttributes } from 'react'
-
 import { makeStyles } from 'tss-react/mui'
 
 const useStyles = makeStyles<{ size?: number }>({ name: 'Logo' })((theme, { size }, classes) => ({

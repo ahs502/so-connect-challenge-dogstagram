@@ -4,8 +4,8 @@ import { useState, useRef } from 'react'
 import { useMountedState, useScrollbarWidth } from 'react-use'
 import { config } from '../../config'
 import { useInfiniteScroll } from '../../useInfiniteScroll'
+import { MasonryLayout } from '../MasonryLayout'
 import { Favorite, FavoriteAttached, services } from '../services'
-import { MasonryLayout } from './MasonryLayout'
 
 export function FavoritesPage() {
   const [favorites, setFavorites] = useState<readonly FavoriteAttached[]>([])

@@ -5,8 +5,8 @@ import { useState } from 'react'
 import { useMountedState, useScrollbarWidth } from 'react-use'
 import { config } from '../../config'
 import { useInfiniteScroll } from '../../useInfiniteScroll'
+import { MasonryLayout } from '../MasonryLayout'
 import { Image, ImageAttached, services } from '../services'
-import { MasonryLayout } from './MasonryLayout'
 
 export function DogsPage() {
   const [images, setImages] = useState<readonly ImageAttached[]>([])

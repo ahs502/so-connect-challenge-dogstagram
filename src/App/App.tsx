@@ -1,10 +1,10 @@
 import { Pages } from './Pages'
-import { Provider } from './Provider'
+import { StylingProvider } from './styling'
 
 export function App() {
   return (
-    <Provider>
+    <StylingProvider>
       <Pages />
-    </Provider>
+    </StylingProvider>
   )
 }
