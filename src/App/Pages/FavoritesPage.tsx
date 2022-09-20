@@ -6,6 +6,7 @@ import { config } from '../../config'
 import { useInfiniteScroll } from '../../useInfiniteScroll'
 import { MasonryLayout } from '../MasonryLayout'
 import { Favorite, FavoriteAttached, services } from '../services'
+import { ImageCard } from './ImageCard'
 
 export function FavoritesPage() {
   const [favorites, setFavorites] = useState<readonly FavoriteAttached[]>([])
@@ -54,16 +55,41 @@ export function FavoritesPage() {
         items={favorites}
         getKey={item => item.id}
         render={({ item, rootRef, top, left, width, hidden }) => (
-          <img
+          <ImageCard
             ref={rootRef}
-            src={item.imageUrl}
-            alt=""
             style={{
               position: 'absolute',
               top,
               left,
               width,
               visibility: hidden ? 'hidden' : 'visible',
+            }}
+            imageId={item.imageId}
+            imageUrl={item.imageUrl}
+            favoriteId={item.id}
+            favoriteCreatedAt={item.createdAt}
+            breeds={undefined}
+            onAddToFavorites={async imageId => {
+              // Currently, we have no situation in the UI that ends up calling this callback:
+              try {
+                const { favoriteId } = await services.addUserFavorite({ imageId })
+                const { favorite } = await services.getUserFavorite({ favoriteId })
+                setFavorites(current => [...current, favorite])
+              } catch (error) {
+                console.error(error)
+              }
+            }}
+            onRemoveFromFavorites={async favoriteId => {
+              try {
+                await services.removeUserFavorite({ favoriteId })
+                setFavorites(current => {
+                  const index = current.indexOf(item)
+                  if (index < 0) return current
+                  return [...current.slice(0, index), ...current.slice(index + 1)]
+                })
+              } catch (error) {
+                console.error(error)
+              }
             }}
           />
         )}

@@ -7,6 +7,7 @@ import { config } from '../../config'
 import { useInfiniteScroll } from '../../useInfiniteScroll'
 import { MasonryLayout } from '../MasonryLayout'
 import { Image, ImageAttached, services } from '../services'
+import { ImageCard } from './ImageCard'
 
 export function DogsPage() {
   const [images, setImages] = useState<readonly ImageAttached[]>([])
@@ -56,16 +57,45 @@ export function DogsPage() {
         items={images}
         getKey={item => item.id}
         render={({ item, rootRef, top, left, width, hidden }) => (
-          <img
+          <ImageCard
             ref={rootRef}
-            src={item.url}
-            alt=""
             style={{
               position: 'absolute',
               top,
               left,
               width,
               visibility: hidden ? 'hidden' : 'visible',
+            }}
+            imageId={item.id}
+            imageUrl={item.url}
+            favoriteId={item.favoriteId}
+            favoriteCreatedAt={undefined}
+            breeds={item.breeds}
+            onAddToFavorites={async imageId => {
+              try {
+                const { favoriteId } = await services.addUserFavorite({ imageId })
+                // TODO: The right way is to fetch the new item and replace it in the items array,
+                // but TheDogApi doesn't provide such an end-point to get a single image WITH favorite data attached,
+                // so we go the hacky way and mutate the item for now:
+                const itemAsAny = item as any
+                itemAsAny.favoriteId = favoriteId
+                setImages(current => [...current])
+              } catch (error) {
+                console.error(error)
+              }
+            }}
+            onRemoveFromFavorites={async favoriteId => {
+              try {
+                await services.removeUserFavorite({ favoriteId })
+                // TODO: The right way is to fetch the new item and replace it in the items array,
+                // but TheDogApi doesn't provide such an end-point to get a single image WITH favorite data attached,
+                // so we go the hacky way and mutate the item for now:
+                const itemAsAny = item as any
+                itemAsAny.favoriteId = undefined
+                setImages(current => [...current])
+              } catch (error) {
+                console.error(error)
+              }
             }}
           />
         )}
