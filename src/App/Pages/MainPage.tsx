@@ -63,6 +63,7 @@ export function MainPage() {
           <>
             <IconButton
               ref={mainMenuAnchorRef}
+              edge="start"
               color="inherit"
               sx={{ display: { sm: 'none' } }}
               onClick={() => setMainMenuOpen(true)}
@@ -135,7 +136,7 @@ export function MainPage() {
           <Box sx={{ flexGrow: 1 }} />
 
           <>
-            <IconButton ref={userMenuAnchorRef} color="inherit" onClick={() => setUserMenuOpen(true)}>
+            <IconButton ref={userMenuAnchorRef} edge="end" color="inherit" onClick={() => setUserMenuOpen(true)}>
               <Avatar sx={theme => ({ width: theme.spacing(4), height: theme.spacing(4), color: 'inherit' })}>
                 <PersonIcon />
               </Avatar>

@@ -1,20 +1,18 @@
-import { Box, BoxProps, Checkbox } from '@mui/material'
+import { Close as CloseIcon } from '@mui/icons-material'
+import { AppBar, Box, BoxProps, Checkbox, Dialog, DialogContent, IconButton, Toolbar, Typography } from '@mui/material'
 import { forwardRef, useState } from 'react'
 import { makeStyles } from 'tss-react/mui'
+import { Logo } from '../Logo'
 import { Breed, Favorite, Image } from '../services'
 
 const useStyles = makeStyles({ name: 'ImageCard' })((theme, _, classes) => ({
   root: {
     minHeight: theme.spacing(10), //todo
     position: 'relative',
+    cursor: 'pointer',
   },
   image: {
     width: '100%',
-  },
-  checkbox: {
-    position: 'absolute',
-    top: theme.spacing(1),
-    right: theme.spacing(1),
   },
 }))
 
@@ -38,34 +36,96 @@ export const ImageCard = forwardRef<
     breeds,
     onAddToFavorites,
     onRemoveFromFavorites,
+    onClick,
     className,
     ...otherProps
   },
   ref
 ) {
   const [favoriting, setFavoriting] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
 
   const { classes, cx } = useStyles()
 
   return (
-    <Box ref={ref} {...otherProps} component="div" className={cx(classes.root, className)}>
-      <img src={imageUrl} alt="" className={classes.image} />
-      <Checkbox
-        className={classes.checkbox}
-        disabled={favoriting}
-        checked={Boolean(favoriteId)}
-        onChange={async (event, checked) => {
-          if (!favoriteId && checked) {
-            setFavoriting(true)
-            await onAddToFavorites(imageId)
-            setFavoriting(false)
-          } else if (favoriteId && !checked) {
-            setFavoriting(true)
-            await onRemoveFromFavorites(favoriteId)
-            setFavoriting(false)
-          }
+    <>
+      <Box
+        ref={ref}
+        {...otherProps}
+        className={cx(classes.root, className)}
+        component="div"
+        onClick={event => {
+          setDialogOpen(true)
+          onClick?.(event)
         }}
-      />
-    </Box>
+      >
+        <img src={imageUrl} alt="" className={classes.image} />
+
+        <Checkbox
+          sx={theme => ({ position: 'absolute', top: theme.spacing(1), right: theme.spacing(1) })}
+          disabled={favoriting}
+          checked={Boolean(favoriteId)}
+          onChange={async () => {
+            setFavoriting(true)
+            if (favoriteId) {
+              await onRemoveFromFavorites(favoriteId)
+            } else {
+              await onAddToFavorites(imageId)
+            }
+            setFavoriting(false)
+          }}
+        />
+      </Box>
+
+      {dialogOpen && (
+        <Dialog open fullScreen onClose={() => setDialogOpen(false)}>
+          <AppBar position="static">
+            <Toolbar sx={theme => ({ display: 'flex', gap: theme.spacing(2) })}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                sx={{ display: { sm: 'none' } }}
+                onClick={() => setDialogOpen(false)}
+              >
+                <CloseIcon />
+              </IconButton>
+
+              <Logo size={4} />
+
+              <Typography variant="h6">Dogstagram</Typography>
+
+              <Checkbox
+                disabled={favoriting}
+                checked={Boolean(favoriteId)}
+                onChange={async () => {
+                  setFavoriting(true)
+                  if (favoriteId) {
+                    await onRemoveFromFavorites(favoriteId)
+                  } else {
+                    await onAddToFavorites(imageId)
+                  }
+                  setFavoriting(false)
+                }}
+              />
+
+              <Box sx={{ flexGrow: 1 }} />
+
+              <IconButton
+                edge="end"
+                color="inherit"
+                sx={{ display: { xs: 'none', sm: 'block' } }}
+                onClick={() => setDialogOpen(false)}
+              >
+                <CloseIcon />
+              </IconButton>
+            </Toolbar>
+          </AppBar>
+
+          <DialogContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <img src={imageUrl} alt="" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
   )
 })
