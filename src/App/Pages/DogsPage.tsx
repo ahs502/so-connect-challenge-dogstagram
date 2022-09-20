@@ -1,10 +1,12 @@
-import { Box, CircularProgress, ImageList, ImageListItem } from '@mui/material'
+import { Box, CircularProgress } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useRef } from 'react'
 import { useState } from 'react'
+import { useScrollbarWidth } from 'react-use'
 import { config } from '../../config'
 import { useInfiniteScroll } from '../../useInfiniteScroll'
 import { Image, ImageAttached, services } from '../services'
+import { MasonryLayout } from './MasonryLayout'
 
 export function DogsPage() {
   const [images, setImages] = useState<readonly ImageAttached[]>([])
@@ -36,22 +38,38 @@ export function DogsPage() {
         setTotalCount(response.totalCount)
       } catch (error) {
         console.error(error)
-        //TODO: Something better to do...
       }
     },
   })
+
+  const scrollbarWidth = useScrollbarWidth() ?? 0
 
   const theme = useTheme()
 
   return (
     <div>
-      <ImageList variant="masonry" cols={3} gap={Number(theme.spacing(2).slice(0, -2))}>
-        {images.map(image => (
-          <ImageListItem key={image.id}>
-            <img src={image.url} alt="" />
-          </ImageListItem>
-        ))}
-      </ImageList>
+      <MasonryLayout
+        sx={{ width: `calc(100vw - ${scrollbarWidth}px)` }}
+        items={images}
+        getKey={item => item.id}
+        render={({ item, rootRef, top, left, width, hidden }) => (
+          <img
+            ref={rootRef as any}
+            src={item.url}
+            alt=""
+            style={{
+              position: 'absolute',
+              top,
+              left,
+              width,
+              opacity: hidden ? 0 : 1,
+            }}
+          />
+        )}
+        maximumColumnWidth={Number(theme.spacing(35).slice(0, -2))}
+        gap={Number(theme.spacing(2).slice(0, -2))}
+        paddingByGap
+      />
 
       {!noMoreImages && (
         <Box sx={theme => ({ padding: theme.spacing(10, 0), textAlign: 'center' })}>
