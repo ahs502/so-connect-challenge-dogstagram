@@ -8,8 +8,11 @@ import { useInfiniteScroll } from '../../useInfiniteScroll'
 import { MasonryLayout } from '../MasonryLayout'
 import { Image, ImageAttached, services } from '../services'
 import { ImageCard } from './ImageCard'
+import { imageSizeLocalStorageEntry } from './imageSizeLocalStorageEntry'
 
 export function DogsPage() {
+  const imageSize = imageSizeLocalStorageEntry.useRead()
+
   const [images, setImages] = useState<readonly ImageAttached[]>([])
   const [totalCount, setTotalCount] = useState(1) // Any initial value more than 0 while having an empty array of items, causes at least one initial request
 
@@ -99,7 +102,9 @@ export function DogsPage() {
             }}
           />
         )}
-        maximumColumnWidth={Number(theme.spacing(35).slice(0, -2))}
+        maximumColumnWidth={Number(
+          theme.spacing(imageSize === 'small' ? 30 : imageSize === 'large' ? 60 : 45).slice(0, -2)
+        )}
         gap={Number(theme.spacing(2).slice(0, -2))}
         paddingByGap
       />

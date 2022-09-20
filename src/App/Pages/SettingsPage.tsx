@@ -1,8 +1,10 @@
 import { Box, Container, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import { themePalleteModeLocalStorageEntry } from '../styling'
+import { imageSizeLocalStorageEntry } from './imageSizeLocalStorageEntry'
 
 export function SettingsPage() {
   const themePalleteMode = themePalleteModeLocalStorageEntry.useRead()
+  const imageSize = imageSizeLocalStorageEntry.useRead()
 
   return (
     <Container
@@ -26,6 +28,23 @@ export function SettingsPage() {
             <MenuItem value="system">System</MenuItem>
             <MenuItem value="light">Light</MenuItem>
             <MenuItem value="dark">Dark</MenuItem>
+          </Select>
+        </FormControl>
+
+        <FormControl fullWidth>
+          <InputLabel>Image size</InputLabel>
+          <Select
+            label="Image size"
+            value={imageSize}
+            onChange={event => {
+              imageSizeLocalStorageEntry.write(
+                event.target.value === 'small' ? 'small' : event.target.value === 'large' ? 'large' : 'medium'
+              )
+            }}
+          >
+            <MenuItem value="small">Small</MenuItem>
+            <MenuItem value="medium">Medium</MenuItem>
+            <MenuItem value="large">Large</MenuItem>
           </Select>
         </FormControl>
       </Box>

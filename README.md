@@ -6,12 +6,12 @@
 
 <br/>
 
-## Important notes
+## Important tips
 
-A live version of the application is served under [this address](https://???.zettel.ai).
+A live version of the application is served under [this address](https://dogstagram.zettel.ai).
 
 You may sign in with any arbitrary ***User ID***.
-It'll be like this user has already been signed up.
+This will act like the user name who has signed in the app.
 
 The ***Password*** is the same as **User ID** with **`"zoot"`** as postfix.
 
@@ -22,6 +22,8 @@ The ***Password*** is the same as **User ID** with **`"zoot"`** as postfix.
 **Passeord**: **`joe-daltonzoot`**
 
 The UI is pretty _responsive and mobile-friendly_, so it works fine on different screen sizes.
+
+To access the **Settings** page, click on the user avatar on top-right of the screen.
 
 <br/>
 
