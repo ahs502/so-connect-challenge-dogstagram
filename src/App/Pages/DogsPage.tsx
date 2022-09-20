@@ -1,8 +1,8 @@
-import { Box, CircularProgress } from '@mui/material'
+import { Box, CircularProgress, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useRef } from 'react'
 import { useState } from 'react'
-import { useScrollbarWidth } from 'react-use'
+import { useMountedState, useScrollbarWidth } from 'react-use'
 import { config } from '../../config'
 import { useInfiniteScroll } from '../../useInfiniteScroll'
 import { Image, ImageAttached, services } from '../services'
@@ -15,6 +15,8 @@ export function DogsPage() {
   const noMoreImages = images.length >= totalCount
 
   const imageDictionaryRef = useRef<Record<Image['id'], ImageAttached>>({}) // Helps to efficiently remove items with the same ID
+
+  const isMounted = useMountedState()
 
   useInfiniteScroll({
     disabled: noMoreImages,
@@ -29,6 +31,7 @@ export function DogsPage() {
           limit: config.theDogApi.recommendedLimit,
           order: 'asc',
         })
+        if (!isMounted()) return
         const filteredDuplicatedImages = response.images.filter(image => {
           if (image.id in imageDictionaryRef.current) return false
           imageDictionaryRef.current[image.id] = image
@@ -54,7 +57,7 @@ export function DogsPage() {
         getKey={item => item.id}
         render={({ item, rootRef, top, left, width, hidden }) => (
           <img
-            ref={rootRef as any}
+            ref={rootRef}
             src={item.url}
             alt=""
             style={{
@@ -62,7 +65,7 @@ export function DogsPage() {
               top,
               left,
               width,
-              opacity: hidden ? 0 : 1,
+              visibility: hidden ? 'hidden' : 'visible',
             }}
           />
         )}
@@ -74,6 +77,14 @@ export function DogsPage() {
       {!noMoreImages && (
         <Box sx={theme => ({ padding: theme.spacing(10, 0), textAlign: 'center' })}>
           <CircularProgress size={theme.spacing(5)} color="primary" />
+        </Box>
+      )}
+
+      {noMoreImages && images.length === 0 && (
+        <Box sx={theme => ({ padding: theme.spacing(10, 0), textAlign: 'center' })}>
+          <Typography variant="subtitle1" color={theme.palette.text.secondary}>
+            No images found!
+          </Typography>
         </Box>
       )}
     </div>

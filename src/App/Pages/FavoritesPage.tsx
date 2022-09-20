@@ -1,7 +1,7 @@
-import { Box, CircularProgress } from '@mui/material'
+import { Box, CircularProgress, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useState, useRef } from 'react'
-import { useScrollbarWidth } from 'react-use'
+import { useMountedState, useScrollbarWidth } from 'react-use'
 import { config } from '../../config'
 import { useInfiniteScroll } from '../../useInfiniteScroll'
 import { Favorite, FavoriteAttached, services } from '../services'
@@ -15,6 +15,8 @@ export function FavoritesPage() {
 
   const favoriteDictionaryRef = useRef<Record<Favorite['id'], FavoriteAttached>>({}) // Helps to efficiently remove items with the same ID
 
+  const isMounted = useMountedState()
+
   useInfiniteScroll({
     disabled: noMoreFavorites,
     threshold: {
@@ -27,6 +29,7 @@ export function FavoritesPage() {
           page: Math.floor(favorites.length / config.theDogApi.recommendedLimit),
           limit: config.theDogApi.recommendedLimit,
         })
+        if (!isMounted()) return
         const filteredDuplicatedFavorites = response.favorites.filter(favorite => {
           if (favorite.id in favoriteDictionaryRef.current) return false
           favoriteDictionaryRef.current[favorite.id] = favorite
@@ -52,7 +55,7 @@ export function FavoritesPage() {
         getKey={item => item.id}
         render={({ item, rootRef, top, left, width, hidden }) => (
           <img
-            ref={rootRef as any}
+            ref={rootRef}
             src={item.imageUrl}
             alt=""
             style={{
@@ -60,7 +63,7 @@ export function FavoritesPage() {
               top,
               left,
               width,
-              opacity: hidden ? 0 : 1,
+              visibility: hidden ? 'hidden' : 'visible',
             }}
           />
         )}
@@ -72,6 +75,14 @@ export function FavoritesPage() {
       {!noMoreFavorites && (
         <Box sx={theme => ({ padding: theme.spacing(10, 0), textAlign: 'center' })}>
           <CircularProgress size={theme.spacing(5)} color="primary" />
+        </Box>
+      )}
+
+      {noMoreFavorites && favorites.length === 0 && (
+        <Box sx={theme => ({ padding: theme.spacing(10, 0), textAlign: 'center' })}>
+          <Typography variant="subtitle1" color={theme.palette.text.secondary}>
+            No favorites yet!
+          </Typography>
         </Box>
       )}
     </div>

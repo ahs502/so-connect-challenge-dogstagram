@@ -1,5 +1,4 @@
 import {
-  Check as CheckIcon,
   Logout as LogoutIcon,
   Menu as MenuIcon,
   Person as PersonIcon,
@@ -80,23 +79,23 @@ export function MainPage() {
               onClose={() => setMainMenuOpen(false)}
             >
               <MenuItem
+                selected={navigatedToDogsPage}
                 onClick={() => {
                   setMainMenuOpen(false)
                   navigate('/dogs')
                 }}
               >
-                <ListItemIcon>{navigatedToDogsPage && <CheckIcon />}</ListItemIcon>
-                <ListItemText>Dogs</ListItemText>
+                Dogs
               </MenuItem>
 
               <MenuItem
+                selected={navigatedToFavoritesPage}
                 onClick={() => {
                   setMainMenuOpen(false)
                   navigate('/favorites')
                 }}
               >
-                <ListItemIcon>{navigatedToFavoritesPage && <CheckIcon />}</ListItemIcon>
-                <ListItemText>Favorites</ListItemText>
+                Favorites
               </MenuItem>
             </Menu>
           </>

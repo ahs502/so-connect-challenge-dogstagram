@@ -1,5 +1,5 @@
 import { DependencyList, useEffect, useRef } from 'react'
-import { useEffectOnce } from 'react-use'
+import { useEffectOnce, useMountedState } from 'react-use'
 
 export function useInfiniteScroll(
   {
@@ -20,8 +20,10 @@ export function useInfiniteScroll(
   const checkRef = useRef(check)
   checkRef.current = check
 
+  const isMounted = useMountedState()
+
   function check(): void {
-    if (disabled || !onReachingEnd || promiseRef.current) return
+    if (disabled || !onReachingEnd || promiseRef.current || !isMounted()) return
 
     const { clientHeight, scrollHeight, scrollTop } = window.document.documentElement
     const evaluatedThreshold = (threshold?.px ?? 0) + ((threshold?.vh ?? 0) * clientHeight) / 100
