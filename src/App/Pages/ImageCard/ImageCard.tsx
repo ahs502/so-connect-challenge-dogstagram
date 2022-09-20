@@ -1,18 +1,61 @@
-import { Close as CloseIcon } from '@mui/icons-material'
-import { AppBar, Box, BoxProps, Checkbox, Dialog, DialogContent, IconButton, Toolbar, Typography } from '@mui/material'
+import { Close as CloseIcon, Fullscreen as FullscreenIcon } from '@mui/icons-material'
+import { AppBar, Box, BoxProps, Dialog, DialogContent, IconButton, Toolbar, Typography } from '@mui/material'
 import { forwardRef, useState } from 'react'
 import { makeStyles } from 'tss-react/mui'
-import { Logo } from '../Logo'
-import { Breed, Favorite, Image } from '../services'
+import { Logo } from '../../Logo'
+import { Breed, Favorite, Image } from '../../services'
+import { FavoriteButton } from './FavoriteButton'
 
-const useStyles = makeStyles({ name: 'ImageCard' })((theme, _, classes) => ({
+const useStyles = makeStyles<void, 'image' | 'shadow' | 'fullscreen' | 'favorite'>({
+  name: 'ImageCard',
+})((theme, _, classes) => ({
   root: {
-    minHeight: theme.spacing(10), //todo
+    minHeight: theme.spacing(8),
     position: 'relative',
     cursor: 'pointer',
+    overflow: 'hidden',
+    '&:hover': {
+      [`& .${classes.image}`]: {
+        transform: 'scale(1.03)',
+      },
+      [`& .${classes.shadow}`]: {
+        opacity: 1,
+      },
+      [`& .${classes.fullscreen}`]: {
+        opacity: 1,
+      },
+      [`& .${classes.favorite}`]: {
+        opacity: 1,
+      },
+    },
   },
   image: {
     width: '100%',
+    display: 'block', // No unintended bottom line occupied space
+    transition: 'transform 0.25s',
+  },
+  shadow: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    height: theme.spacing(8),
+    backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.7),  rgba(0, 0, 0, 0))',
+    opacity: 0,
+    transition: 'opacity 0.3s',
+  },
+  fullscreen: {
+    position: 'absolute',
+    top: theme.spacing(1),
+    left: theme.spacing(1),
+    color: theme.palette.common.white,
+    opacity: 0,
+    transition: 'opacity 0.2s',
+  },
+  favorite: {
+    position: 'absolute',
+    top: theme.spacing(0),
+    right: theme.spacing(0),
   },
 }))
 
@@ -42,7 +85,6 @@ export const ImageCard = forwardRef<
   },
   ref
 ) {
-  const [favoriting, setFavoriting] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const { classes, cx } = useStyles()
@@ -61,18 +103,19 @@ export const ImageCard = forwardRef<
       >
         <img src={imageUrl} alt="" className={classes.image} />
 
-        <Checkbox
-          sx={theme => ({ position: 'absolute', top: theme.spacing(1), right: theme.spacing(1) })}
-          disabled={favoriting}
-          checked={Boolean(favoriteId)}
-          onChange={async () => {
-            setFavoriting(true)
+        <div className={classes.shadow} />
+
+        <FullscreenIcon className={classes.fullscreen} />
+
+        <FavoriteButton
+          className={classes.favorite}
+          favorited={Boolean(favoriteId)}
+          onClick={async () => {
             if (favoriteId) {
               await onRemoveFromFavorites(favoriteId)
             } else {
               await onAddToFavorites(imageId)
             }
-            setFavoriting(false)
           }}
         />
       </Box>
@@ -94,26 +137,24 @@ export const ImageCard = forwardRef<
 
               <Typography variant="h6">Dogstagram</Typography>
 
-              <Checkbox
-                disabled={favoriting}
-                checked={Boolean(favoriteId)}
-                onChange={async () => {
-                  setFavoriting(true)
+              <Box sx={{ flexGrow: 1 }} />
+
+              <FavoriteButton
+                fullOpacity
+                favorited={Boolean(favoriteId)}
+                onClick={async () => {
                   if (favoriteId) {
                     await onRemoveFromFavorites(favoriteId)
                   } else {
                     await onAddToFavorites(imageId)
                   }
-                  setFavoriting(false)
                 }}
               />
-
-              <Box sx={{ flexGrow: 1 }} />
 
               <IconButton
                 edge="end"
                 color="inherit"
-                sx={{ display: { xs: 'none', sm: 'block' } }}
+                sx={{ display: { xs: 'none', sm: 'flex' } }}
                 onClick={() => setDialogOpen(false)}
               >
                 <CloseIcon />
@@ -122,7 +163,12 @@ export const ImageCard = forwardRef<
           </AppBar>
 
           <DialogContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img src={imageUrl} alt="" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+            <img
+              src={imageUrl}
+              alt=""
+              style={{ maxWidth: '100%', maxHeight: '100%', cursor: 'pointer' }}
+              onClick={() => setDialogOpen(false)}
+            />
           </DialogContent>
         </Dialog>
       )}

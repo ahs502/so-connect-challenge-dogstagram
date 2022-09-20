@@ -25,6 +25,9 @@ The UI is pretty _responsive and mobile-friendly_, so it works fine on different
 
 To access the **Settings** page, click on the user avatar on top-right of the screen.
 
+It still has so much room for improvement, but I eventually had to stop somewhere!
+I hope you have fun with it!
+
 <br/>
 
 ## Technical stack
