@@ -10,11 +10,11 @@ import { MasonryLayout } from './MasonryLayout'
 
 export function DogsPage() {
   const [images, setImages] = useState<readonly ImageAttached[]>([])
-  const [totalCount, setTotalCount] = useState(1) // Any initial value more than 0 while having an empty array of images, causes at least one initial request
+  const [totalCount, setTotalCount] = useState(1) // Any initial value more than 0 while having an empty array of items, causes at least one initial request
 
   const noMoreImages = images.length >= totalCount
 
-  const imageDictionaryRef = useRef<Record<Image['id'], ImageAttached>>({}) // Helps to efficiently remove images with the same ID
+  const imageDictionaryRef = useRef<Record<Image['id'], ImageAttached>>({}) // Helps to efficiently remove items with the same ID
 
   useInfiniteScroll({
     disabled: noMoreImages,
