@@ -10,11 +10,18 @@
 
 A live version of the application is served under [this address](https://???.zettel.ai).
 
-You may use any arbitrary ***User ID*** to sign in.
+You may sign in with any arbitrary ***User ID***.
+It'll be like this user has already been signed up.
 
-The ***Password*** is hard-coded to **`"zoot"`**.
+The ***Password*** is the same as **User ID** with **`"zoot"`** as postfix.
 
-The UI is pretty responsive, so it works fine on different screen sizes.
+> For example you may sign in with a credential like:
+<br/>
+**User ID**: **`joe-dalton`**
+<br/>
+**Passeord**: **`joe-daltonzoot`**
+
+The UI is pretty _responsive and mobile-friendly_, so it works fine on different screen sizes.
 
 <br/>
 
@@ -77,13 +84,20 @@ The UI is pretty responsive, so it works fine on different screen sizes.
    ```
    > Build artifacts are placed inside the `dist` folder.
 
+- Serve `dist` locally:
+
+   ```sh
+   $ npm run serve
+   ```
+   > It serves the build artifacts in `dist` under [`http://localhost:9712`](http://localhost:9712).
+
 <br/>
 
 ## Development guide
 
-Thanks to the `husky` package, every changes are checked before being committed.
-This includes linting and testing.
-Therefore, in order to have a convenient committing experience, you may do both checks manually right before committing to make sure everthing is alright:
+Thanks to the `husky` package, every changes are checked previously before being committed.
+This includes _linting_ and _testing_.
+Therefore, in order to have a convenient committing experience, you can do both checks manually right before committing to make sure everthing is alright:
 
 ```sh
 $ npm run lint-stage   # Do not forget to stage changes first!

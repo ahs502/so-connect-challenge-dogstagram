@@ -56,7 +56,11 @@ export function SignInPage() {
               !userId ? 'User ID is required' : userId.length < 5 ? 'User ID should be at least 5 characters' : ''
             )
             setPasswordError(
-              !password ? 'Password is required' : password !== config.password ? 'Password is incorrect' : ''
+              !password
+                ? 'Password is required'
+                : password !== `${userId}${config.passwordPostfix}`
+                ? 'Password is incorrect'
+                : ''
             )
             if (getUserIdError() || getPasswordError()) return
             authenticatedUserIdLocalStorageEntry.write(userId)

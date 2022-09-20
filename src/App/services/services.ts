@@ -46,7 +46,7 @@ export const services = {
         options.types.length > 0 &&
         `mime_types=${options.types.map(type => `image/${type}`).join(',')}`,
       options?.order !== undefined && `order=${options.order}`,
-      authenticatedUserId && `sub_id=${authenticatedUserId}`,
+      authenticatedUserId && `sub_id=${encodeURIComponent(authenticatedUserId)}`,
     ]
       .filter(Boolean)
       .join('&')
@@ -66,7 +66,7 @@ export const services = {
     image: Image
   }> {
     const authenticatedUserId = authenticatedUserIdLocalStorageEntry.read()
-    const query = [authenticatedUserId && `sub_id=${authenticatedUserId}`].filter(Boolean).join('&')
+    const query = [authenticatedUserId && `sub_id=${encodeURIComponent(authenticatedUserId)}`].filter(Boolean).join('&')
     const response = await fetch(`${config.theDogApi.baseUrl}/images/${options.imageId}${query ? `?${query}` : ''}`, {
       headers: {
         'x-api-key': config.theDogApi.apiKey,
@@ -86,7 +86,7 @@ export const services = {
     const query = [
       options?.page !== undefined && `page=${options.page}`,
       options?.limit !== undefined && `limit=${options.limit}`,
-      authenticatedUserId && `sub_id=${authenticatedUserId}`,
+      authenticatedUserId && `sub_id=${encodeURIComponent(authenticatedUserId)}`,
     ]
       .filter(Boolean)
       .join('&')

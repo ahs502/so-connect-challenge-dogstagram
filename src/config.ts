@@ -1,5 +1,12 @@
+/**
+ * Contains all the global level configurations.
+ * Most probably these values are about to be taken from environment variables
+ * or injected by any other such tools during build process.
+ */
 export const config = {
-  password: 'zoot',
+  nodeEnvironment: process.env.NODE_ENV,
+
+  passwordPostfix: 'zoot',
 
   theDogApi: {
     baseUrl: 'https://api.thedogapi.com/v1',
