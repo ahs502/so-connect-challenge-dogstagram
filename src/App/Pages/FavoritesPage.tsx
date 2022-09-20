@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useMountedState, useScrollbarWidth } from 'react-use'
 import { config } from '../../config'
 import { useInfiniteScroll } from '../../useInfiniteScroll'
@@ -17,8 +17,6 @@ export function FavoritesPage() {
 
   const noMoreFavorites = favorites.length >= totalCount
 
-  const favoriteDictionaryRef = useRef<Record<Favorite['id'], FavoriteAttached>>({}) // Helps to efficiently remove items with the same ID
-
   const isMounted = useMountedState()
 
   useInfiniteScroll({
@@ -34,12 +32,17 @@ export function FavoritesPage() {
           limit: config.theDogApi.recommendedLimit,
         })
         if (!isMounted()) return
-        const filteredDuplicatedFavorites = response.favorites.filter(favorite => {
-          if (favorite.id in favoriteDictionaryRef.current) return false
-          favoriteDictionaryRef.current[favorite.id] = favorite
-          return true
+        setFavorites(current => {
+          const favoriteDictionary = current.reduce<Record<Favorite['id'], FavoriteAttached>>(
+            (dictionary, favorite) => {
+              dictionary[favorite.id] = favorite
+              return dictionary
+            },
+            {}
+          )
+          const notDuplicatedFavorites = response.favorites.filter(favorite => !(favorite.id in favoriteDictionary))
+          return [...current, ...notDuplicatedFavorites]
         })
-        setFavorites(current => [...current, ...filteredDuplicatedFavorites])
         setTotalCount(response.totalCount)
       } catch (error) {
         console.error(error)

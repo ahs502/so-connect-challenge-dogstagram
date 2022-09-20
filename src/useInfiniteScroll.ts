@@ -37,6 +37,12 @@ export function useInfiniteScroll(
           checkRef.current()
         })
       })
+    } else {
+      // For cases that we miss any exact right opportunity to check,
+      // this will make sure we will check again in a short time:
+      setTimeout(() => {
+        checkRef.current()
+      }, 100)
     }
   }
 

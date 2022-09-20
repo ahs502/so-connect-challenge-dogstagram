@@ -1,24 +1,28 @@
 import { Box, CircularProgress, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { useRef } from 'react'
 import { useState } from 'react'
-import { useMountedState, useScrollbarWidth } from 'react-use'
-import { config } from '../../config'
-import { useInfiniteScroll } from '../../useInfiniteScroll'
-import { MasonryLayout } from '../MasonryLayout'
-import { Image, ImageAttached, services } from '../services'
-import { ImageCard } from './ImageCard'
-import { imageSizeLocalStorageEntry } from './imageSizeLocalStorageEntry'
+import { useGetSet, useMountedState, useScrollbarWidth, useUpdateEffect } from 'react-use'
+import { config } from '../../../config'
+import { useInfiniteScroll } from '../../../useInfiniteScroll'
+import { MasonryLayout } from '../../MasonryLayout'
+import { Image, ImageAttached, services } from '../../services'
+import { ImageCard } from '../ImageCard'
+import { imageSizeLocalStorageEntry } from '../imageSizeLocalStorageEntry'
+import { FiltersToolbar } from './FiltersToolbar'
 
 export function DogsPage() {
   const imageSize = imageSizeLocalStorageEntry.useRead()
 
   const [images, setImages] = useState<readonly ImageAttached[]>([])
   const [totalCount, setTotalCount] = useState(1) // Any initial value more than 0 while having an empty array of items, causes at least one initial request
+  const [getFilters, setFilters] = useGetSet<FiltersToolbar.Filters>({ type: 'all', order: 'asc' })
 
   const noMoreImages = images.length >= totalCount
 
-  const imageDictionaryRef = useRef<Record<Image['id'], ImageAttached>>({}) // Helps to efficiently remove items with the same ID
+  useUpdateEffect(() => {
+    setImages([])
+    setTotalCount(1)
+  }, [getFilters()])
 
   const isMounted = useMountedState()
 
@@ -30,18 +34,23 @@ export function DogsPage() {
     },
     async onReachingEnd() {
       try {
+        const filters = getFilters()
         const response = await services.searchImages({
           page: Math.floor(images.length / config.theDogApi.recommendedLimit),
           limit: config.theDogApi.recommendedLimit,
-          order: 'asc',
+          breedId: filters.breedId,
+          types: filters.type === 'all' ? undefined : [filters.type],
+          order: filters.order,
         })
-        if (!isMounted()) return
-        const filteredDuplicatedImages = response.images.filter(image => {
-          if (image.id in imageDictionaryRef.current) return false
-          imageDictionaryRef.current[image.id] = image
-          return true
+        if (!isMounted() || filters !== getFilters()) return
+        setImages(current => {
+          const imageDictionary = current.reduce<Record<Image['id'], ImageAttached>>((dictionary, image) => {
+            dictionary[image.id] = image
+            return dictionary
+          }, {})
+          const notDuplicatedImages = response.images.filter(image => !(image.id in imageDictionary))
+          return [...current, ...notDuplicatedImages]
         })
-        setImages(current => [...current, ...filteredDuplicatedImages])
         setTotalCount(response.totalCount)
       } catch (error) {
         console.error(error)
@@ -55,6 +64,8 @@ export function DogsPage() {
 
   return (
     <div>
+      <FiltersToolbar filters={getFilters()} onChangeFilters={setFilters} />
+
       <MasonryLayout
         sx={{ width: `calc(100vw - ${scrollbarWidth}px)` }}
         items={images}
@@ -77,9 +88,9 @@ export function DogsPage() {
             onAddToFavorites={async imageId => {
               try {
                 const { favoriteId } = await services.addUserFavorite({ imageId })
-                // TODO: The right way is to fetch the new item and replace it in the items array,
+                // TODO: The right way to do this is to fetch the new item and replace it in the items array,
                 // but TheDogApi doesn't provide such an end-point to get a single image WITH favorite data attached,
-                // so we go the hacky way and mutate the item for now:
+                // so we go the hacky way and mutate the item as a temporary workaround for now:
                 const itemAsAny = item as any
                 itemAsAny.favoriteId = favoriteId
                 setImages(current => [...current])
@@ -90,9 +101,9 @@ export function DogsPage() {
             onRemoveFromFavorites={async favoriteId => {
               try {
                 await services.removeUserFavorite({ favoriteId })
-                // TODO: The right way is to fetch the new item and replace it in the items array,
+                // TODO: The right way to do this is to fetch the new item and replace it in the items array,
                 // but TheDogApi doesn't provide such an end-point to get a single image WITH favorite data attached,
-                // so we go the hacky way and mutate the item for now:
+                // so we go the hacky way and mutate the item as a temporary workaround for now:
                 const itemAsAny = item as any
                 itemAsAny.favoriteId = undefined
                 setImages(current => [...current])
