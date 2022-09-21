@@ -1,6 +1,7 @@
 import { Close as CloseIcon, Fullscreen as FullscreenIcon } from '@mui/icons-material'
 import { AppBar, Box, BoxProps, Button, Dialog, DialogContent, IconButton, Toolbar, Typography } from '@mui/material'
 import { forwardRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { makeStyles } from 'tss-react/mui'
 import { Logo } from '../../Logo'
 import { Breed, Favorite, Image } from '../../services'
@@ -86,6 +87,8 @@ export const ImageCard = forwardRef<
   ref
 ) {
   const [dialogOpen, setDialogOpen] = useState(false)
+
+  const navigate = useNavigate()
 
   const { classes, cx } = useStyles()
 
@@ -175,7 +178,15 @@ export const ImageCard = forwardRef<
               >
                 <Typography variant="subtitle1">Breeds</Typography>
                 {breeds.map(breed => (
-                  <Button key={breed.id}>{breed.name}</Button>
+                  <Button
+                    key={breed.id}
+                    onClick={() => {
+                      navigate({ pathname: '/dogs', search: `breed_id=${breed.id}` })
+                      setDialogOpen(false)
+                    }}
+                  >
+                    {breed.name}
+                  </Button>
                 ))}
               </Box>
             )}

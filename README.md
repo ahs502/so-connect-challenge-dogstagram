@@ -21,7 +21,7 @@ The ***Password*** is the same as **User ID** with **`"zoot"`** as postfix.
 <br/>
 **Passeord**: **`joe-daltonzoot`**
 
-The UI is pretty _responsive and mobile-friendly_, so it works fine on different screen sizes.
+The UI is pretty _responsive and mobile-friendly_, you may try it on different screen sizes.
 
 To access the **Settings** page, click on the user avatar on top-right of the screen.
 

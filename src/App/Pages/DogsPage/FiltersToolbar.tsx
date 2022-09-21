@@ -2,14 +2,15 @@ import { North as NorthIcon, Shuffle as ShuffleIcon, South as SouthIcon } from '
 import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Toolbar, Tooltip } from '@mui/material'
 import { useState } from 'react'
 import { useEffectOnce } from 'react-use'
-import { Breed, BreedAttached, services } from '../../services'
+import { BreedAttached, services } from '../../services'
+import { Filters } from './types'
 
 export function FiltersToolbar({
   filters,
   onChangeFilters,
 }: {
-  filters: FiltersToolbar.Filters
-  onChangeFilters(filters: FiltersToolbar.Filters): void
+  filters: Filters
+  onChangeFilters(filters: Filters): void
 }) {
   const [breeds, setBreeds] = useState<readonly BreedAttached[]>()
 
@@ -57,7 +58,7 @@ export function FiltersToolbar({
           onChange={event => {
             onChangeFilters({
               ...filters,
-              type: event.target.value as FiltersToolbar.Filters['type'],
+              type: event.target.value as Filters['type'],
             })
           }}
         >
@@ -111,12 +112,4 @@ export function FiltersToolbar({
       </Button>
     </Toolbar>
   )
-}
-
-export namespace FiltersToolbar {
-  export interface Filters {
-    readonly breedId?: Breed['id']
-    readonly type: 'all' | 'jpg' | 'png' | 'gif'
-    readonly order: 'random' | 'asc' | 'desc'
-  }
 }

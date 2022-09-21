@@ -19,6 +19,7 @@ import {
 import { useTheme } from '@mui/material/styles'
 import { matchSorter } from 'match-sorter'
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useEffectOnce } from 'react-use'
 import { BreedAttached, services } from '../services'
 import { ScreenLoader } from './ScreenLoader'
@@ -50,6 +51,8 @@ export function BreedsPage() {
         : matchSorter(breeds, query, { keys: ['name', 'countryCode', 'bredFor', 'breedGroup', 'temperament'] }),
     [breeds, query]
   )
+
+  const navigate = useNavigate()
 
   const theme = useTheme()
 
@@ -112,7 +115,7 @@ export function BreedsPage() {
             <Card key={breed.id}>
               <CardActionArea
                 onClick={() => {
-                  // TODO: Open breed filtered dogs
+                  navigate({ pathname: '/dogs', search: `breed_id=${breed.id}` })
                 }}
               >
                 <CardMedia

@@ -1,6 +1,6 @@
 import { useTheme } from '@mui/material/styles'
 import { useState } from 'react'
-import { useGetSet, useMountedState, useScrollbarWidth, useUpdateEffect } from 'react-use'
+import { useMountedState, useScrollbarWidth, useUpdateEffect } from 'react-use'
 import { config } from '../../../config'
 import { useInfiniteScroll } from '../../../useInfiniteScroll'
 import { MasonryLayout } from '../../MasonryLayout'
@@ -10,13 +10,15 @@ import { imageSizeLocalStorageEntry } from '../imageSizeLocalStorageEntry'
 import { ScreenLoader } from '../ScreenLoader'
 import { ScreenMessage } from '../ScreenMessage'
 import { FiltersToolbar } from './FiltersToolbar'
+import { useFiltersFromSearchParams } from './useFiltersFromSearchParams'
 
 export function DogsPage() {
+  const [getFilters, setFilters] = useFiltersFromSearchParams()
+
   const imageSize = imageSizeLocalStorageEntry.useRead()
 
   const [images, setImages] = useState<readonly ImageAttached[]>([])
   const [totalCount, setTotalCount] = useState(1) // Any initial value more than 0 while having an empty array of items, causes at least one initial request
-  const [getFilters, setFilters] = useGetSet<FiltersToolbar.Filters>({ type: 'all', order: 'asc' })
 
   const noMoreImages = images.length >= totalCount
 
