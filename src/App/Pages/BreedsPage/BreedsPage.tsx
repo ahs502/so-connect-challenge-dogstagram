@@ -1,33 +1,17 @@
-import { Clear as ClearIcon, Search as SearchIcon } from '@mui/icons-material'
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Container,
-  FormControl,
-  Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Typography,
-} from '@mui/material'
+import { Card, CardActionArea, CardContent, CardMedia, Container, Grid, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { matchSorter } from 'match-sorter'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useEffectOnce } from 'react-use'
-import { BreedAttached, services } from '../services'
-import { ScreenLoader } from './ScreenLoader'
-import { ScreenMessage } from './ScreenMessage'
-import { StickyToolbar } from './StickyToolbar'
+import { BreedAttached, services } from '../../services'
+import { ScreenLoader } from '../ScreenLoader'
+import { ScreenMessage } from '../ScreenMessage'
+import { FiltersToolbar } from './FiltersToolbar'
 
 export function BreedsPage() {
   const [breeds, setBreeds] = useState<readonly BreedAttached[]>()
-  const [query, setQuery] = useState('')
+  const [debouncedQuery, setDebouncedQuery] = useState('')
   const [unitSystem, setUnitSystem] = useState<'imperial' | 'metric'>('metric')
 
   useEffectOnce(
@@ -46,10 +30,12 @@ export function BreedsPage() {
     () =>
       breeds === undefined
         ? undefined
-        : !query
+        : !debouncedQuery
         ? breeds
-        : matchSorter(breeds, query, { keys: ['name', 'countryCode', 'bredFor', 'breedGroup', 'temperament'] }),
-    [breeds, query]
+        : matchSorter(breeds, debouncedQuery, {
+            keys: ['name', 'countryCode', 'bredFor', 'breedGroup', 'temperament'],
+          }),
+    [breeds, debouncedQuery]
   )
 
   const navigate = useNavigate()
@@ -60,50 +46,7 @@ export function BreedsPage() {
 
   return (
     <>
-      <StickyToolbar
-        sx={theme => ({
-          display: 'flex',
-          alignItems: 'center',
-          gap: theme.spacing(2),
-        })}
-      >
-        <TextField
-          sx={{ flex: 'auto' }}
-          label="Search"
-          placeholder="e.g.: name, country, breed group, temperament, ..."
-          autoComplete="off"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-            endAdornment: query ? (
-              <InputAdornment position="end">
-                <IconButton onClick={() => setQuery('')}>
-                  <ClearIcon />
-                </IconButton>
-              </InputAdornment>
-            ) : null,
-          }}
-          value={query}
-          onChange={event => setQuery(event.target.value)}
-        />
-
-        <FormControl sx={theme => ({ width: theme.spacing(15) })}>
-          <InputLabel>Units</InputLabel>
-          <Select
-            label="Units"
-            value={unitSystem}
-            onChange={event => {
-              setUnitSystem(event.target.value as any)
-            }}
-          >
-            <MenuItem value="metric">Metric</MenuItem>
-            <MenuItem value="imperial">Imperial</MenuItem>
-          </Select>
-        </FormControl>
-      </StickyToolbar>
+      <FiltersToolbar setDebouncedQuery={setDebouncedQuery} unitSystem={unitSystem} setUnitSystem={setUnitSystem} />
 
       {filteredBreeds.length > 0 ? (
         <Container
@@ -151,7 +94,7 @@ export function BreedsPage() {
                     </Grid>
                     <Grid item xs={6}>
                       <Typography variant="subtitle1" display="inline" color="text.secondary">
-                        Life span:&nbsp;
+                        Lives:&nbsp;
                       </Typography>
                       <Typography variant="subtitle1" display="inline">
                         {breed.lifeSpan}

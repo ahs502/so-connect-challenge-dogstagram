@@ -1,7 +1,7 @@
 import { Box, BoxProps } from '@mui/material'
 import { RefObject, useMemo, useRef, useState } from 'react'
+import { useDebouncedCallback } from '../../useDebouncedCallback'
 import { Item } from './Item'
-import { useDebouncedCallback } from './useDebouncedCallback'
 import { useWatchSize } from './useWatchSize'
 
 export function MasonryLayout<T>({

@@ -5,7 +5,8 @@ const useStyles = makeStyles({ name: 'StickyToolbar' })((theme, _, classes) => (
   root: {
     position: 'sticky',
     top: theme.spacing(6),
-    padding: theme.spacing(4, 0, 2, 0),
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(2),
     backgroundColor: theme.palette.background.default,
     zIndex: 1,
   },
