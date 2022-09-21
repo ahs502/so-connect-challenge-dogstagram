@@ -70,7 +70,7 @@ export function DogsPage() {
       <FiltersToolbar filters={getFilters()} onChangeFilters={setFilters} />
 
       <MasonryLayout
-        sx={{ width: `calc(100vw - ${scrollbarWidth}px)` }}
+        sx={{ width: `calc(100vw - ${scrollbarWidth}px)`, margin: 'auto' }}
         items={images}
         getKey={item => item.id}
         render={({ item, rootRef, top, left, width, hidden }) => (

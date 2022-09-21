@@ -58,7 +58,7 @@ export function FavoritesPage() {
   return (
     <div>
       <MasonryLayout
-        sx={{ width: `calc(100vw - ${scrollbarWidth}px)` }}
+        sx={{ width: `calc(100vw - ${scrollbarWidth}px)`, margin: 'auto' }}
         items={favorites}
         getKey={item => item.id}
         render={({ item, rootRef, top, left, width, hidden }) => (
