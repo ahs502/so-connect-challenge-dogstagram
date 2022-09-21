@@ -20,7 +20,7 @@ export function useFiltersFromSearchParams(): [() => Filters, (filters: Filters)
     const query = [
       filters.breedId !== undefined ? `breed_id=${filters.breedId}` : null,
       filters.type !== 'all' ? `type=${filters.type}` : null,
-      filters.order !== 'asc' ? `type=${filters.order}` : null,
+      filters.order !== 'asc' ? `order=${filters.order}` : null,
     ]
       .filter(Boolean)
       .join('&')

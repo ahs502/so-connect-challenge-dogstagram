@@ -15,6 +15,7 @@ const useStyles = makeStyles<void, 'image' | 'shadow' | 'fullscreen' | 'favorite
     position: 'relative',
     cursor: 'pointer',
     overflow: 'hidden',
+    transition: 'opacity 0.6s',
     '&:hover': {
       [`& .${classes.image}`]: {
         transform: 'scale(1.03)',
@@ -29,6 +30,9 @@ const useStyles = makeStyles<void, 'image' | 'shadow' | 'fullscreen' | 'favorite
         opacity: 1,
       },
     },
+  },
+  imageLoading: {
+    opacity: 0.3,
   },
   image: {
     width: '100%',
@@ -86,6 +90,7 @@ export const ImageCard = forwardRef<
   },
   ref
 ) {
+  const [imageStatus, setImageStatus] = useState<'loading' | 'loaded' | 'error'>('loading')
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const navigate = useNavigate()
@@ -97,14 +102,20 @@ export const ImageCard = forwardRef<
       <Box
         ref={ref}
         {...otherProps}
-        className={cx(classes.root, className)}
+        className={cx(classes.root, imageStatus === 'loading' && classes.imageLoading, className)}
         component="div"
         onClick={event => {
           setDialogOpen(true)
           onClick?.(event)
         }}
       >
-        <img src={imageUrl} alt="" className={classes.image} />
+        <img
+          src={imageUrl}
+          alt=""
+          className={classes.image}
+          onLoad={() => setImageStatus('loaded')}
+          onError={() => setImageStatus('error')}
+        />
 
         <div className={classes.shadow} />
 
