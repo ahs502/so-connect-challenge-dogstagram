@@ -1,4 +1,3 @@
-import { Box, CircularProgress, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useState } from 'react'
 import { useMountedState, useScrollbarWidth } from 'react-use'
@@ -8,6 +7,8 @@ import { MasonryLayout } from '../MasonryLayout'
 import { Favorite, FavoriteAttached, services } from '../services'
 import { ImageCard } from './ImageCard'
 import { imageSizeLocalStorageEntry } from './imageSizeLocalStorageEntry'
+import { ScreenLoader } from './ScreenLoader'
+import { ScreenMessage } from './ScreenMessage'
 
 export function FavoritesPage() {
   const imageSize = imageSizeLocalStorageEntry.useRead()
@@ -106,19 +107,9 @@ export function FavoritesPage() {
         paddingByGap
       />
 
-      {!noMoreFavorites && (
-        <Box sx={theme => ({ padding: theme.spacing(10, 0), textAlign: 'center' })}>
-          <CircularProgress size={theme.spacing(5)} color="primary" />
-        </Box>
-      )}
+      {!noMoreFavorites && <ScreenLoader />}
 
-      {noMoreFavorites && favorites.length === 0 && (
-        <Box sx={theme => ({ padding: theme.spacing(10, 0), textAlign: 'center' })}>
-          <Typography variant="subtitle1" color={theme.palette.text.secondary}>
-            No favorites yet!
-          </Typography>
-        </Box>
-      )}
+      {noMoreFavorites && favorites.length === 0 && <ScreenMessage>No favorites yet!</ScreenMessage>}
     </div>
   )
 }

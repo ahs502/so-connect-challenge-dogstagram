@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { BreedsPage } from './BreedsPage'
 import { DogsPage } from './DogsPage'
 import { ErrorPage } from './ErrorPage'
 import { FavoritesPage } from './FavoritesPage'
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
           {
             path: '/dogs',
             element: <DogsPage />,
+          },
+          {
+            path: '/breeds',
+            element: <BreedsPage />,
           },
           {
             path: '/favorites',

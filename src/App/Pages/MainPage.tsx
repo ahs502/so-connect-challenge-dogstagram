@@ -20,7 +20,7 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { makeStyles } from 'tss-react/mui'
 import { authenticatedUserIdLocalStorageEntry } from '../authenticatedUserIdLocalStorageEntry'
@@ -38,6 +38,12 @@ const useStyles = makeStyles({ name: 'MainPage' })((theme, _, classes) => ({
   },
 }))
 
+const routes: readonly { readonly title: string; readonly path: string }[] = [
+  { title: 'Dogs', path: '/dogs' },
+  { title: 'Breeds', path: '/breeds' },
+  { title: 'Favorites', path: '/favorites' },
+]
+
 export function MainPage() {
   const [mainMenuOpen, setMainMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
@@ -49,8 +55,7 @@ export function MainPage() {
 
   const location = useLocation()
 
-  const navigatedToDogsPage = location.pathname.startsWith('/dogs')
-  const navigatedToFavoritesPage = location.pathname.startsWith('/favorites')
+  const navigatedRoute = useMemo(() => routes.find(route => location.pathname.startsWith(route.path)), [location])
 
   const navigate = useNavigate()
 
@@ -79,25 +84,18 @@ export function MainPage() {
               PaperProps={{ sx: theme => ({ minWidth: theme.spacing(20) }) }}
               onClose={() => setMainMenuOpen(false)}
             >
-              <MenuItem
-                selected={navigatedToDogsPage}
-                onClick={() => {
-                  setMainMenuOpen(false)
-                  navigate('/dogs')
-                }}
-              >
-                Dogs
-              </MenuItem>
-
-              <MenuItem
-                selected={navigatedToFavoritesPage}
-                onClick={() => {
-                  setMainMenuOpen(false)
-                  navigate('/favorites')
-                }}
-              >
-                Favorites
-              </MenuItem>
+              {routes.map((route, index) => (
+                <MenuItem
+                  key={index}
+                  selected={route === navigatedRoute}
+                  onClick={() => {
+                    setMainMenuOpen(false)
+                    navigate(route.path)
+                  }}
+                >
+                  {route.title}
+                </MenuItem>
+              ))}
             </Menu>
           </>
 
@@ -112,25 +110,18 @@ export function MainPage() {
               gap: theme.spacing(1),
             })}
           >
-            <Button
-              variant={navigatedToDogsPage ? 'outlined' : 'text'}
-              color="inherit"
-              onClick={() => {
-                navigate('/dogs')
-              }}
-            >
-              Dogs
-            </Button>
-
-            <Button
-              variant={navigatedToFavoritesPage ? 'outlined' : 'text'}
-              color="inherit"
-              onClick={() => {
-                navigate('/favorites')
-              }}
-            >
-              Favorites
-            </Button>
+            {routes.map((route, index) => (
+              <Button
+                key={index}
+                variant={route === navigatedRoute ? 'outlined' : 'text'}
+                color="inherit"
+                onClick={() => {
+                  navigate(route.path)
+                }}
+              >
+                {route.title}
+              </Button>
+            ))}
           </Box>
 
           <Box sx={{ flexGrow: 1 }} />

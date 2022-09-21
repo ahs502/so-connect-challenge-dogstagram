@@ -1,4 +1,3 @@
-import { Box, CircularProgress, Typography } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { useState } from 'react'
 import { useGetSet, useMountedState, useScrollbarWidth, useUpdateEffect } from 'react-use'
@@ -8,6 +7,8 @@ import { MasonryLayout } from '../../MasonryLayout'
 import { Image, ImageAttached, services } from '../../services'
 import { ImageCard } from '../ImageCard'
 import { imageSizeLocalStorageEntry } from '../imageSizeLocalStorageEntry'
+import { ScreenLoader } from '../ScreenLoader'
+import { ScreenMessage } from '../ScreenMessage'
 import { FiltersToolbar } from './FiltersToolbar'
 
 export function DogsPage() {
@@ -120,19 +121,9 @@ export function DogsPage() {
         paddingByGap
       />
 
-      {!noMoreImages && (
-        <Box sx={theme => ({ padding: theme.spacing(10, 0), textAlign: 'center' })}>
-          <CircularProgress size={theme.spacing(5)} color="primary" />
-        </Box>
-      )}
+      {!noMoreImages && <ScreenLoader />}
 
-      {noMoreImages && images.length === 0 && (
-        <Box sx={theme => ({ padding: theme.spacing(10, 0), textAlign: 'center' })}>
-          <Typography variant="subtitle1" color={theme.palette.text.secondary}>
-            No images found!
-          </Typography>
-        </Box>
-      )}
+      {noMoreImages && images.length === 0 && <ScreenMessage>No images found!</ScreenMessage>}
     </div>
   )
 }
