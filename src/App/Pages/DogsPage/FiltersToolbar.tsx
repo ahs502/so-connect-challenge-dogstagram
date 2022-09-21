@@ -27,10 +27,7 @@ export function FiltersToolbar({
 
   return (
     <Toolbar sx={theme => ({ marginTop: theme.spacing(2), gap: theme.spacing(2) })}>
-      <FormControl
-        size="small"
-        sx={theme => ({ width: { xs: theme.spacing(15), sm: theme.spacing(25), md: theme.spacing(35) } })}
-      >
+      <FormControl sx={theme => ({ width: { xs: theme.spacing(15), sm: theme.spacing(25), md: theme.spacing(35) } })}>
         <InputLabel>Breed</InputLabel>
         <Select
           label="Breed"
@@ -52,7 +49,7 @@ export function FiltersToolbar({
         </Select>
       </FormControl>
 
-      <FormControl size="small" sx={theme => ({ width: theme.spacing(12) })}>
+      <FormControl sx={theme => ({ width: theme.spacing(12) })}>
         <InputLabel>Type</InputLabel>
         <Select
           label="Type"
