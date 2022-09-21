@@ -33,7 +33,7 @@ export function FiltersToolbar({
         <Select
           label="Breed"
           disabled={!breeds}
-          value={String(filters.breedId ?? '-')}
+          value={breeds ? String(filters.breedId ?? '-') : '-'}
           onChange={event => {
             onChangeFilters({
               ...filters,
