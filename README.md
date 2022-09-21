@@ -16,10 +16,10 @@ This will act like the user name who has signed in the app.
 The ***Password*** is the same as **User ID** with **`"zoot"`** as postfix.
 
 > For example you may sign in with a credential like:
-<br/>
-**User ID**: **`joe-dalton`**
-<br/>
-**Passeord**: **`joe-daltonzoot`**
+> <br/>
+> **User ID**: **`joe-dalton`**
+> <br/>
+> **Passeord**: **`joe-daltonzoot`**
 
 The UI is pretty _responsive and mobile-friendly_, you may try it on different screen sizes.
 
@@ -36,8 +36,6 @@ I hope you enjoy it!
 - React
 - MUI
 - Webpack (Create-React-App)
-
-> It's strongly recommended to use [VS Code](https://code.visualstudio.com/) to develope this repository.
 
 <br/>
 
@@ -99,6 +97,8 @@ I hope you enjoy it!
 <br/>
 
 ## Development guide
+
+It's strongly recommended to use [VS Code](https://code.visualstudio.com/) to develope this repository.
 
 Thanks to the `husky` package, every changes are checked previously before being committed.
 This includes _linting_ and _testing_.
