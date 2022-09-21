@@ -1,5 +1,5 @@
 import { Close as CloseIcon, Fullscreen as FullscreenIcon } from '@mui/icons-material'
-import { AppBar, Box, BoxProps, Dialog, DialogContent, IconButton, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, BoxProps, Button, Dialog, DialogContent, IconButton, Toolbar, Typography } from '@mui/material'
 import { forwardRef, useState } from 'react'
 import { makeStyles } from 'tss-react/mui'
 import { Logo } from '../../Logo'
@@ -162,13 +162,32 @@ export const ImageCard = forwardRef<
             </Toolbar>
           </AppBar>
 
-          <DialogContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img
-              src={imageUrl}
-              alt=""
-              style={{ maxWidth: '100%', maxHeight: '100%', cursor: 'pointer' }}
-              onClick={() => setDialogOpen(false)}
-            />
+          <DialogContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            {breeds && breeds.length > 0 && (
+              <Box
+                sx={theme => ({
+                  marginBottom: theme.spacing(2),
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: theme.spacing(2),
+                  flexWrap: 'wrap',
+                })}
+              >
+                <Typography variant="subtitle1">Breeds</Typography>
+                {breeds.map(breed => (
+                  <Button key={breed.id}>{breed.name}</Button>
+                ))}
+              </Box>
+            )}
+
+            <Box sx={{ height: 0, flex: 'auto', alignSelf: 'center', display: 'flex', alignItems: 'center' }}>
+              <img
+                src={imageUrl}
+                alt=""
+                style={{ maxWidth: '100%', maxHeight: '100%', cursor: 'pointer' }}
+                onClick={() => setDialogOpen(false)}
+              />
+            </Box>
           </DialogContent>
         </Dialog>
       )}

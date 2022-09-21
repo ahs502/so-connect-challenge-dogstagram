@@ -103,7 +103,7 @@ export function SignInPage() {
             helperText={getPasswordError()}
           />
 
-          <Button variant="contained" color="primary" fullWidth type="submit">
+          <Button variant="contained" size="large" color="primary" fullWidth type="submit">
             Sign in
           </Button>
         </form>

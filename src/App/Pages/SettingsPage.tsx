@@ -18,11 +18,11 @@ export function SettingsPage() {
       <Button
         sx={{ alignSelf: 'flex-start' }}
         onClick={() => {
-          navigate('/dogs')
+          navigate(-1)
         }}
       >
         <WestIcon />
-        &nbsp;&nbsp;Dogs
+        &nbsp;&nbsp;Back
       </Button>
 
       <Box sx={theme => ({ display: 'flex', flexDirection: 'column', gap: theme.spacing(3) })}>

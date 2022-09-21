@@ -1,7 +1,8 @@
-import { ThemeOptions } from '@mui/material'
+import { extendThemeOptions } from '../extendThemeOptions'
+import { baseThemeOptions } from './baseThemeOptions'
 
-export const lightThemeOptions: ThemeOptions = {
+export const lightThemeOptions = extendThemeOptions(baseThemeOptions, {
   palette: {
     mode: 'light',
   },
-}
+})
