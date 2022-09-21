@@ -13,7 +13,6 @@ import {
   MenuItem,
   Select,
   TextField,
-  Toolbar,
   Typography,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
@@ -24,6 +23,7 @@ import { useEffectOnce } from 'react-use'
 import { BreedAttached, services } from '../services'
 import { ScreenLoader } from './ScreenLoader'
 import { ScreenMessage } from './ScreenMessage'
+import { StickyToolbar } from './StickyToolbar'
 
 export function BreedsPage() {
   const [breeds, setBreeds] = useState<readonly BreedAttached[]>()
@@ -60,8 +60,12 @@ export function BreedsPage() {
 
   return (
     <>
-      <Toolbar
-        sx={theme => ({ margin: theme.spacing(2, 0), display: 'flex', alignItems: 'center', gap: theme.spacing(2) })}
+      <StickyToolbar
+        sx={theme => ({
+          display: 'flex',
+          alignItems: 'center',
+          gap: theme.spacing(2),
+        })}
       >
         <TextField
           sx={{ flex: 'auto' }}
@@ -99,7 +103,7 @@ export function BreedsPage() {
             <MenuItem value="imperial">Imperial</MenuItem>
           </Select>
         </FormControl>
-      </Toolbar>
+      </StickyToolbar>
 
       {filteredBreeds.length > 0 ? (
         <Container

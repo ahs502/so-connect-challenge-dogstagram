@@ -1,8 +1,9 @@
 import { North as NorthIcon, Shuffle as ShuffleIcon, South as SouthIcon } from '@mui/icons-material'
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Toolbar, Tooltip } from '@mui/material'
+import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Select, Tooltip } from '@mui/material'
 import { useState } from 'react'
 import { useEffectOnce } from 'react-use'
 import { BreedAttached, services } from '../../services'
+import { StickyToolbar } from '../StickyToolbar'
 import { Filters } from './types'
 
 export function FiltersToolbar({
@@ -27,7 +28,7 @@ export function FiltersToolbar({
   )
 
   return (
-    <Toolbar sx={theme => ({ marginTop: theme.spacing(2), gap: theme.spacing(2) })}>
+    <StickyToolbar sx={theme => ({ gap: theme.spacing(2) })}>
       <FormControl sx={theme => ({ width: { xs: theme.spacing(15), sm: theme.spacing(25), md: theme.spacing(35) } })}>
         <InputLabel>Breed</InputLabel>
         <Select
@@ -110,6 +111,6 @@ export function FiltersToolbar({
       <Button variant="text" color="primary" onClick={() => onChangeFilters({ type: 'all', order: 'asc' })}>
         Reset
       </Button>
-    </Toolbar>
+    </StickyToolbar>
   )
 }
