@@ -2,7 +2,6 @@
   "name": "so-connect-challenge-dogstagram",
   "version": "1.0.0",
   "description": "Dogstagram frontend challenge for SO Connect",
-  "private": true,
   "scripts": {
     "start": "cross-env BROWSER=none react-app-rewired start",
     "build": "cross-env BUILD_PATH=dist react-app-rewired build",
@@ -12,6 +11,8 @@
     "eject": "react-app-rewired eject",
     "lint-staged": "cross-env LINT_FIX_ERRORS=false lint-staged --verbose",
     "serve": "serve -s -l 9712 dist",
+    "predeploy": "cross-env PUBLIC_URL=./ npm run build",
+    "deploy": "gh-pages -d dist",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -33,6 +34,7 @@
     "customize-cra": "^1.0.0",
     "eslint": "^8.23.1",
     "eslint-config-prettier": "^8.5.0",
+    "gh-pages": "^4.0.0",
     "match-sorter": "^6.3.1",
     "prettier": "^2.7.1",
     "qs": "^6.11.0",

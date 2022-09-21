@@ -1,4 +1,5 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, createHashRouter, RouteObject, RouterProvider } from 'react-router-dom'
+import { config } from '../../config'
 import { BreedsPage } from './BreedsPage'
 import { DogsPage } from './DogsPage'
 import { ErrorPage } from './ErrorPage'
@@ -12,7 +13,7 @@ export function Pages() {
   return <RouterProvider router={router} />
 }
 
-const router = createBrowserRouter([
+const routes: RouteObject[] = [
   {
     path: '/',
     element: <RootPage />,
@@ -46,4 +47,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-])
+]
+
+const router = config.nodeEnvironment === 'development' ? createBrowserRouter(routes) : createHashRouter(routes)

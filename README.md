@@ -4,11 +4,11 @@
 
 ----------------
 
-<br/>
+<br />
 
 ## Important tips
 
-A live version of the application is served under [this address](https://dogstagram.zettel.ai).
+A live version of the application is served under this GitHub Pages address: [`https://ahs502.github.io/so-connect-challenge-dogstagram`](https://ahs502.github.io/so-connect-challenge-dogstagram).
 
 You may sign in with any arbitrary ***User ID***.
 This will act like the user name who has signed in the app.
@@ -16,9 +16,9 @@ This will act like the user name who has signed in the app.
 The ***Password*** is the same as **User ID** with **`"zoot"`** as postfix.
 
 > For example you may sign in with a credential like:
-> <br/>
+> <br />
 > **User ID**: **`joe-dalton`**
-> <br/>
+> <br />
 > **Passeord**: **`joe-daltonzoot`**
 
 The UI is pretty _responsive and mobile-friendly_, you may try it on different screen sizes.
@@ -28,7 +28,7 @@ To access the **Settings** page, click on the user avatar on top-right of the sc
 It still has so much room for improvement, but I eventually had to stop somewhere!
 I hope you enjoy it!
 
-<br/>
+<br />
 
 ## Technical stack
 
@@ -37,7 +37,7 @@ I hope you enjoy it!
 - MUI
 - Webpack (Create-React-App)
 
-<br/>
+<br />
 
 ## Setup locally
 
@@ -61,7 +61,7 @@ I hope you enjoy it!
    ```
    > You need to open the app manually from [`http://localhost:3000`](http://localhost:3000).
 
-<br/>
+<br />
 
 ## Available commands
 
@@ -94,7 +94,16 @@ I hope you enjoy it!
    ```
    > It serves the build artifacts in `dist` under [`http://localhost:9712`](http://localhost:9712).
 
-<br/>
+- Deploy to the project's GitHub Pages address:
+
+   ```sh
+   $ npm run deploy
+   ```
+   > You need _write_ access to the repository to deploy it this way.
+   > <br />
+   > You can then visit the live application served under [`https://ahs502.github.io/so-connect-challenge-dogstagram`](https://ahs502.github.io/so-connect-challenge-dogstagram).
+
+<br />
 
 ## Development guide
 
@@ -109,14 +118,14 @@ $ npm run lint-stage   # Do not forget to stage changes first!
 $ npm test
 ```
 
-<br/>
+<br />
 
 ## Remaining work
 
 - [ ] More tests, improve test coverage
 - [ ] Accessibility
 
-<br/>
+<br />
 
 ## Contact me
 
