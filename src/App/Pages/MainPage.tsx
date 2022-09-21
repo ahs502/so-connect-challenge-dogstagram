@@ -9,6 +9,11 @@ import {
   Avatar,
   Box,
   Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
   IconButton,
   List,
@@ -47,6 +52,7 @@ const routes: readonly { readonly title: string; readonly path: string }[] = [
 export function MainPage() {
   const [mainMenuOpen, setMainMenuOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
+  const [confirmSignOutDialogOpen, setConfirmSignOutDialogOpen] = useState(false)
 
   const mainMenuAnchorRef = useRef<HTMLButtonElement>(null)
   const userMenuAnchorRef = useRef<HTMLButtonElement>(null)
@@ -172,7 +178,7 @@ export function MainPage() {
                   sx={theme => ({ color: theme.palette.error.main })}
                   onClick={() => {
                     setUserMenuOpen(false)
-                    authenticatedUserIdLocalStorageEntry.delete()
+                    setConfirmSignOutDialogOpen(true)
                   }}
                 >
                   <ListItemIcon>
@@ -185,6 +191,32 @@ export function MainPage() {
           </>
         </Toolbar>
       </AppBar>
+
+      <Dialog open={confirmSignOutDialogOpen} onClose={() => setConfirmSignOutDialogOpen(false)}>
+        <DialogTitle>Are you sure to sign out?</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Your data will be preserved for you!
+            <br />
+            Please, sign-in again with your User ID "<strong>{authenticatedUserId}</strong>" next time soon!
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="text" onClick={() => setConfirmSignOutDialogOpen(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            color="warning"
+            onClick={() => {
+              setConfirmSignOutDialogOpen(false)
+              authenticatedUserIdLocalStorageEntry.delete()
+            }}
+          >
+            Sign out
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <div className={classes.body}>
         <Outlet />
