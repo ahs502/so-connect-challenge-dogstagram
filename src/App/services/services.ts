@@ -37,20 +37,26 @@ export const services = {
     totalCount: number
   }> {
     const authenticatedUserId = authenticatedUserIdLocalStorageEntry.read()
-    const query = [
-      options?.page !== undefined && `page=${options.page}`,
-      options?.limit !== undefined && `limit=${options.limit}`,
-      options?.breedId !== undefined && `breed_id=${options.breedId}`,
-      options?.types &&
-        Array.isArray(options.types) &&
-        options.types.length > 0 &&
-        `mime_types=${options.types.map(type => `image/${type}`).join(',')}`,
-      options?.order !== undefined && `order=${options.order}`,
-      authenticatedUserId && `sub_id=${encodeURIComponent(authenticatedUserId)}`,
-    ]
-      .filter(Boolean)
-      .join('&')
-    const response = await fetch(`${config.theDogApi.baseUrl}/images/search${query ? `?${query}` : ''}`, {
+    const url = new URL(`${config.theDogApi.baseUrl}/images/search`)
+    if (options?.page !== undefined) {
+      url.searchParams.set('page', String(options.page))
+    }
+    if (options?.limit !== undefined) {
+      url.searchParams.set('limit', String(options.limit))
+    }
+    if (options?.breedId !== undefined) {
+      url.searchParams.set('breed_id', String(options.breedId))
+    }
+    if (options?.types && Array.isArray(options.types) && options.types.length > 0) {
+      url.searchParams.set('mime_types', options.types.map(type => `image/${type}`).join(','))
+    }
+    if (options?.order !== undefined) {
+      url.searchParams.set('order', options.order)
+    }
+    if (authenticatedUserId) {
+      url.searchParams.set('sub_id', authenticatedUserId)
+    }
+    const response = await fetch(url.href, {
       headers: {
         'x-api-key': config.theDogApi.apiKey,
       },
@@ -66,8 +72,11 @@ export const services = {
     image: Image
   }> {
     const authenticatedUserId = authenticatedUserIdLocalStorageEntry.read()
-    const query = [authenticatedUserId && `sub_id=${encodeURIComponent(authenticatedUserId)}`].filter(Boolean).join('&')
-    const response = await fetch(`${config.theDogApi.baseUrl}/images/${options.imageId}${query ? `?${query}` : ''}`, {
+    const url = new URL(`${config.theDogApi.baseUrl}/images/${options.imageId}`)
+    if (authenticatedUserId) {
+      url.searchParams.set('sub_id', authenticatedUserId)
+    }
+    const response = await fetch(url.href, {
       headers: {
         'x-api-key': config.theDogApi.apiKey,
       },
@@ -83,14 +92,17 @@ export const services = {
     totalCount: number
   }> {
     const authenticatedUserId = authenticatedUserIdLocalStorageEntry.read()
-    const query = [
-      options?.page !== undefined && `page=${options.page}`,
-      options?.limit !== undefined && `limit=${options.limit}`,
-      authenticatedUserId && `sub_id=${encodeURIComponent(authenticatedUserId)}`,
-    ]
-      .filter(Boolean)
-      .join('&')
-    const response = await fetch(`${config.theDogApi.baseUrl}/favourites${query ? `?${query}` : ''}`, {
+    const url = new URL(`${config.theDogApi.baseUrl}/favourites`)
+    if (options?.page !== undefined) {
+      url.searchParams.set('page', String(options.page))
+    }
+    if (options?.limit !== undefined) {
+      url.searchParams.set('limit', String(options.limit))
+    }
+    if (authenticatedUserId) {
+      url.searchParams.set('sub_id', authenticatedUserId)
+    }
+    const response = await fetch(url.href, {
       headers: {
         'x-api-key': config.theDogApi.apiKey,
       },
