@@ -19,7 +19,7 @@ The ***Password*** is the same as **User ID** with **`"zoot"`** as postfix.
 > <br />
 > **User ID**: **`joe-dalton`**
 > <br />
-> **Passeord**: **`joe-daltonzoot`**
+> **Password**: **`joe-daltonzoot`**
 
 The UI is pretty _responsive and mobile-friendly_, you may try it on different screen sizes.
 
